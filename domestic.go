@@ -94,19 +94,15 @@ func (op *OnePayDomestic) BuildCheckoutURL(params *CheckoutParams) (string, erro
 	return u.String(), nil
 }
 
-// export function callbackOnePayDomestic(req, res) {
-// 	const query = req.query;
+// HandleCallback ...
+func (op *OnePayDomestic) HandleCallback(v url.Values) (*DomesticResponse, error) {
+	var resp = &DomesticResponse{}
+	err := handleCallback(v, op.Cfg.SecureSecret, resp)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return onepayDom.verifyReturnUrl(query).then(results => {
-// 		if (results) {
-// 			res.locals.email = 'tu.nguyen@naustud.io';
-// 			res.locals.orderId = results.orderId || '';
-// 			res.locals.price = results.amount;
+	resp.PostProcess()
 
-// 			res.locals.isSucceed = results.isSuccess;
-// 			res.locals.message = results.message;
-// 		} else {
-// 			res.locals.isSucceed = false;
-// 		}
-// 	});
-// }
+	return resp, nil
+}

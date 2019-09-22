@@ -80,6 +80,9 @@ func (op *OnePayInternational) BuildCheckoutURL(params *CheckoutParams) (string,
 	// Add SecureHash
 	addSecureHash(&v, op.Cfg.SecureSecret)
 
+	v.Add("Title", "Tran Duy Thanh")
+	v.Add("AgainLink", "https://www.google.com.vn/")
+
 	// Gen full url
 	u := &url.URL{
 		Scheme:   "https",
@@ -91,24 +94,15 @@ func (op *OnePayInternational) BuildCheckoutURL(params *CheckoutParams) (string,
 	return u.String(), nil
 }
 
-// export function callbackOnePayInternational(req, res) {
-// 	const query = req.query;
+// HandleCallback ...
+func (op *OnePayInternational) HandleCallback(v url.Values) (*InternationalResponse, error) {
+	var resp = &InternationalResponse{}
+	err := handleCallback(v, op.Cfg.SecureSecret, resp)
+	if err != nil {
+		return nil, err
+	}
 
-// 	return onepayIntl.verifyReturnUrl(query).then(results => {
-// 		if (results) {
-// 			res.locals.email = 'tu.nguyen@naustud.io';
-// 			res.locals.orderId = results.orderId || '';
-// 			res.locals.price = results.amount;
-// 			res.locals.billingStreet = results.billingStreet;
-// 			res.locals.billingCountry = Countries[results.billingCountry];
-// 			res.locals.billingStateProvince = results.billingStateProvince;
-// 			res.locals.billingCity = results.billingCity;
-// 			res.locals.billingPostalCode = results.billingPostCode;
+	resp.PostProcess()
 
-// 			res.locals.isSucceed = results.isSuccess;
-// 			res.locals.message = results.message;
-// 		} else {
-// 			res.locals.isSucceed = false;
-// 		}
-// 	});
-// }
+	return resp, nil
+}
