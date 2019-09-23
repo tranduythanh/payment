@@ -145,9 +145,9 @@ type DomesticResponse struct {
 
 	VPCMessage         string `json:"vpc_Message" query:"vpc_Message" schema:"vpc_Message"`
 	VPCMerchant        string `json:"vpc_Merchant" query:"vpc_Merchant" schema:"vpc_Merchant"`
-	VPCAmount          int    `json:"vpc_Amount" query:"vpc_Amount" schema:"vpc_Amount"`
+	VPCAmount          int64  `json:"vpc_Amount" query:"vpc_Amount" schema:"vpc_Amount"`
 	VPCOrderInfo       string `json:"vpc_OrderInfo" query:"vpc_OrderInfo" schema:"vpc_OrderInfo"`
-	VPCTxnResponseCode int    `json:"vpc_TxnResponseCode" query:"vpc_TxnResponseCode" schema:"vpc_TxnResponseCode"`
+	VPCTxnResponseCode string `json:"vpc_TxnResponseCode" query:"vpc_TxnResponseCode" schema:"vpc_TxnResponseCode"`
 
 	AgainLink string `json:"AgainLink" query:"AgainLink" schema:"AgainLink"`
 	Title     string `json:"Title" query:"Title" schema:"Title"`
@@ -197,9 +197,9 @@ type InternationalResponse struct {
 
 	VPCMessage         string `json:"vpc_Message" query:"vpc_Message" schema:"vpc_Message"`
 	VPCMerchant        string `json:"vpc_Merchant" query:"vpc_Merchant" schema:"vpc_Merchant"`
-	VPCAmount          int    `json:"vpc_Amount" query:"vpc_Amount" schema:"vpc_Amount"`
+	VPCAmount          int64  `json:"vpc_Amount" query:"vpc_Amount" schema:"vpc_Amount"`
 	VPCOrderInfo       string `json:"vpc_OrderInfo" query:"vpc_OrderInfo" schema:"vpc_OrderInfo"`
-	VPCTxnResponseCode int    `json:"vpc_TxnResponseCode" query:"vpc_TxnResponseCode" schema:"vpc_TxnResponseCode"`
+	VPCTxnResponseCode string `json:"vpc_TxnResponseCode" query:"vpc_TxnResponseCode" schema:"vpc_TxnResponseCode"`
 
 	AgainLink string `json:"AgainLink" query:"AgainLink" schema:"AgainLink"`
 	Title     string `json:"Title" query:"Title" schema:"Title"`
