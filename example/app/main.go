@@ -13,8 +13,8 @@ var domesticPayment *payment.OnePayDomestic
 var internationalPayment *payment.OnePayInternational
 
 func main() {
-	domesticPayment = payment.NewSandboxDomestic("https://a98f94fa.ngrok.io/payment/callback/domestic")
-	internationalPayment = payment.NewSandboxInternational("https://a98f94fa.ngrok.io/payment/callback/international")
+	domesticPayment = payment.NewSandboxDomestic(" https://6b3ea130.ngrok.io/payment/callback/domestic")
+	internationalPayment = payment.NewSandboxInternational(" https://6b3ea130.ngrok.io/payment/callback/international")
 
 	// Echo instance
 	e := echo.New()
@@ -28,7 +28,7 @@ func main() {
 	e.GET("/payment/callback/international", callbackInternational)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":8080"))
+	e.Logger.Fatal(e.Start(":8081"))
 }
 
 // Handler

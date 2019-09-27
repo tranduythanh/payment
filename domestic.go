@@ -9,12 +9,10 @@ import (
 
 // OnePayDomestic ...
 type OnePayDomestic struct {
-	PaymentGatewayHost string
-	PaymentGatewayPath string
-	Version            int
-	Currency           string
-	Command            string
-	Locale             string
+	Version  int
+	Currency string
+	Command  string
+	Locale   string
 
 	Cfg *Config
 }
@@ -22,14 +20,15 @@ type OnePayDomestic struct {
 // NewSandboxDomestic ...
 func NewSandboxDomestic(returnURL string) *OnePayDomestic {
 	return &OnePayDomestic{
-		PaymentGatewayHost: "mtf.onepay.vn",
-		PaymentGatewayPath: "onecomm-pay/vpc.op",
-		Version:            2,
-		Currency:           "VND",
-		Command:            "pay",
-		Locale:             "vn",
+		Version:  2,
+		Currency: "VND",
+		Command:  "pay",
+		Locale:   "vn",
 
 		Cfg: &Config{
+			PaymentGatewayHost: "mtf.onepay.vn",
+			PaymentGatewayPath: "onecomm-pay/vpc.op",
+
 			Merchant:     "ONEPAY",
 			AccessCode:   "D67342C2",
 			SecureSecret: "A3EFDFABA8653DF2342E8DAC29B51AF0",
@@ -41,12 +40,10 @@ func NewSandboxDomestic(returnURL string) *OnePayDomestic {
 // NewDomestic ...
 func NewDomestic(cfg *Config) *OnePayDomestic {
 	return &OnePayDomestic{
-		PaymentGatewayHost: "onepay.vn",
-		PaymentGatewayPath: "onecomm-pay/vpc.op",
-		Version:            2,
-		Currency:           "VND",
-		Command:            "pay",
-		Locale:             "vn",
+		Version:  2,
+		Currency: "VND",
+		Command:  "pay",
+		Locale:   "vn",
 
 		Cfg: cfg,
 	}
@@ -86,8 +83,8 @@ func (op *OnePayDomestic) BuildCheckoutURL(params *CheckoutParams) (string, erro
 	// Gen full url
 	u := &url.URL{
 		Scheme:   "https",
-		Host:     op.PaymentGatewayHost,
-		Path:     op.PaymentGatewayPath,
+		Host:     op.Cfg.PaymentGatewayHost,
+		Path:     op.Cfg.PaymentGatewayPath,
 		RawQuery: v.Encode(),
 	}
 

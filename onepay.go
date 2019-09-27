@@ -19,10 +19,12 @@ const (
 
 // Config ...
 type Config struct {
-	Merchant     string `validate:"required"`
-	AccessCode   string `validate:"required"`
-	ReturnURL    string `validate:"required,max=128"`
-	SecureSecret string `validate:"required"`
+	PaymentGatewayHost string `validate:"required"`
+	PaymentGatewayPath string `validate:"required"`
+	Merchant           string `validate:"required"`
+	AccessCode         string `validate:"required"`
+	ReturnURL          string `validate:"required,max=128"`
+	SecureSecret       string `validate:"required"`
 }
 
 // CheckoutParams ...

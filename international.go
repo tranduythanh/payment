@@ -22,18 +22,18 @@ type OnePayInternational struct {
 // NewSandboxInternational ...
 func NewSandboxInternational(returnURL string) *OnePayInternational {
 	return &OnePayInternational{
-		PaymentGatewayHost: "mtf.onepay.vn",
-		PaymentGatewayPath: "vpcpay/vpcpay.op",
-		Version:            2,
-		Currency:           "VND",
-		Command:            "pay",
-		Locale:             "vn",
+		Version:  2,
+		Currency: "VND",
+		Command:  "pay",
+		Locale:   "vn",
 
 		Cfg: &Config{
-			Merchant:     "TESTONEPAY",
-			AccessCode:   "6BEB2546",
-			SecureSecret: "6D0870CDE5F24F34F3915FB0045120DB",
-			ReturnURL:    returnURL,
+			PaymentGatewayHost: "mtf.onepay.vn",
+			PaymentGatewayPath: "vpcpay/vpcpay.op",
+			Merchant:           "TESTONEPAY",
+			AccessCode:         "6BEB2546",
+			SecureSecret:       "6D0870CDE5F24F34F3915FB0045120DB",
+			ReturnURL:          returnURL,
 		},
 	}
 }
@@ -41,12 +41,10 @@ func NewSandboxInternational(returnURL string) *OnePayInternational {
 // NewInternational ...
 func NewInternational(cfg *Config) *OnePayInternational {
 	return &OnePayInternational{
-		PaymentGatewayHost: "onepay.vn",
-		PaymentGatewayPath: "vpcpay/vpcpay.op",
-		Version:            2,
-		Currency:           "VND",
-		Command:            "pay",
-		Locale:             "vn",
+		Version:  2,
+		Currency: "VND",
+		Command:  "pay",
+		Locale:   "vn",
 
 		Cfg: cfg,
 	}
@@ -86,8 +84,8 @@ func (op *OnePayInternational) BuildCheckoutURL(params *CheckoutParams) (string,
 	// Gen full url
 	u := &url.URL{
 		Scheme:   "https",
-		Host:     op.PaymentGatewayHost,
-		Path:     op.PaymentGatewayPath,
+		Host:     op.Cfg.PaymentGatewayHost,
+		Path:     op.Cfg.PaymentGatewayPath,
 		RawQuery: v.Encode(),
 	}
 
