@@ -24,7 +24,7 @@ type Config struct {
 	Merchant           string `validate:"required" yaml:"merchant" json:"merchant"`
 	AccessCode         string `validate:"required" yaml:"access_code" json:"access_code"`
 	ReturnURL          string `validate:"required,max=128" yaml:"return_url" json:"return_url"`
-	SecureSecret       string `validate:"required" yaml:"scure_secret" json:"scure_secret"`
+	SecureSecret       string `validate:"required" yaml:"secure_secret" json:"secure_secret"`
 }
 
 // CheckoutParams ...
