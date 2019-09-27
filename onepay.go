@@ -19,12 +19,12 @@ const (
 
 // Config ...
 type Config struct {
-	PaymentGatewayHost string `validate:"required"`
-	PaymentGatewayPath string `validate:"required"`
-	Merchant           string `validate:"required"`
-	AccessCode         string `validate:"required"`
-	ReturnURL          string `validate:"required,max=128"`
-	SecureSecret       string `validate:"required"`
+	PaymentGatewayHost string `validate:"required" yaml:"payment_gateway_host" json:"payment_gateway_host"`
+	PaymentGatewayPath string `validate:"required" yaml:"payment_gateway_path" json:"payment_gateway_path"`
+	Merchant           string `validate:"required" yaml:"merchant" json:"merchant"`
+	AccessCode         string `validate:"required" yaml:"access_code" json:"access_code"`
+	ReturnURL          string `validate:"required,max=128" yaml:"return_url" json:"return_url"`
+	SecureSecret       string `validate:"required" yaml:"scure_secret" json:"scure_secret"`
 }
 
 // CheckoutParams ...
