@@ -33,6 +33,8 @@ type CheckoutParams struct {
 	OrderInfo   string `validate:"required,max=34"`
 	MerchTxnRef string `validate:"required,max=40"`
 	TicketNo    string `validate:"required,max=15"`
+	Title       string `validate:"required,max=64"`
+	AgainLink   string `validate:"required,max=64"`
 }
 
 // How to gen secure hash

@@ -78,8 +78,8 @@ func (op *OnePayInternational) BuildCheckoutURL(params *CheckoutParams) (string,
 	// Add SecureHash
 	addSecureHash(&v, op.Cfg.SecureSecret)
 
-	v.Add("Title", "Tran Duy Thanh")
-	v.Add("AgainLink", "https://www.google.com.vn/")
+	v.Add("Title", params.Title)
+	v.Add("AgainLink", params.AgainLink)
 
 	// Gen full url
 	u := &url.URL{

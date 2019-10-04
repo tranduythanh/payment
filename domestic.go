@@ -77,8 +77,8 @@ func (op *OnePayDomestic) BuildCheckoutURL(params *CheckoutParams) (string, erro
 	// Add SecureHash
 	addSecureHash(&v, op.Cfg.SecureSecret)
 
-	v.Add("Title", "Tran Duy Thanh")
-	v.Add("AgainLink", "localhost:8080/payment/checkout")
+	v.Add("Title", params.Title)
+	v.Add("AgainLink", params.AgainLink)
 
 	// Gen full url
 	u := &url.URL{
