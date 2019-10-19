@@ -220,3 +220,21 @@ func (r *InternationalResponse) PostProcess() {
 	r.VPCAmount = r.VPCAmount / 100
 	r.TxnResponseMessage = ErrorMap[r.VPCTxnResponseCode]
 }
+
+// QueryDRAPIRequest ...
+type QueryDRAPIRequest struct {
+	VPCCommand       string `json:"vpc_Command" query:"vpc_Command" schema:"vpc_Command"`
+	VPCVersion       string `json:"vpc_Version" query:"vpc_Version" schema:"vpc_Version"`
+	VPCMerchTxnRef   string `json:"vpc_MerchTxnRef" query:"vpc_MerchTxnRef" schema:"vpc_MerchTxnRef"`
+	VPCMerchant      string `json:"vpc_Merchant" query:"vpc_Merchant" schema:"vpc_Merchant"`
+	VPCAccessCode    string `json:"vpc_AccessCode" query:"vpc_AccessCode" schema:"vpc_AccessCode"`
+	VPCUser          string `json:"vpc_User" query:"vpc_User" schema:"vpc_User"`
+	VPCPassword      string `json:"vpc_Password" query:"vpc_Password" schema:"vpc_Password"`
+	VPCSecureHashKey string `json:"vpc_SecureHash" query:"vpc_SecureHash" schema:"vpc_SecureHash"`
+}
+
+// QueryDRAPIResponse ...
+type QueryDRAPIResponse struct {
+	VPCDRExists        string `json:"vpc_DRExists" query:"vpc_DRExists" schema:"vpc_DRExists"`
+	VPCTxnResponseCode string `json:"vpc_TxnResponseCodes" query:"vpc_TxnResponseCodes" schema:"vpc_TxnResponseCodes"`
+}
