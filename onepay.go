@@ -4,11 +4,15 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"net/url"
 	"strings"
 
 	"github.com/gorilla/schema"
+	"github.com/parnurzeal/gorequest"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 // Defines ...
@@ -21,6 +25,7 @@ const (
 type Config struct {
 	PaymentGatewayHost string `validate:"required" yaml:"payment_gateway_host" json:"payment_gateway_host"`
 	PaymentGatewayPath string `validate:"required" yaml:"payment_gateway_path" json:"payment_gateway_path"`
+	QueryDRPath        string `validate:"required" yaml:"query_dr_path" json:"query_dr_path"`
 	Merchant           string `validate:"required" yaml:"merchant" json:"merchant"`
 	AccessCode         string `validate:"required" yaml:"access_code" json:"access_code"`
 	ReturnURL          string `validate:"required,max=128" yaml:"return_url" json:"return_url"`
@@ -237,4 +242,46 @@ type QueryDRAPIRequest struct {
 type QueryDRAPIResponse struct {
 	VPCDRExists        string `json:"vpc_DRExists" query:"vpc_DRExists" schema:"vpc_DRExists"`
 	VPCTxnResponseCode string `json:"vpc_TxnResponseCodes" query:"vpc_TxnResponseCodes" schema:"vpc_TxnResponseCodes"`
+}
+
+func queryDR(cfg *Config, request *QueryDRAPIRequest) (res *QueryDRAPIResponse, err error) {
+	if cfg == nil {
+		return nil, fmt.Errorf("Config is nil")
+	}
+
+	err = validator.New().Struct(request)
+	if err != nil {
+		return nil, err
+	}
+
+	v := url.Values{}
+
+	v.Add("vpc_Command", request.VPCCommand)
+	v.Add("vpc_Version", request.VPCVersion)
+	v.Add("vpc_MerchTxnRef", request.VPCMerchTxnRef)
+	v.Add("vpc_Merchant", request.VPCMerchant)
+	v.Add("vpc_AccessCode", request.VPCAccessCode)
+	v.Add("vpc_User", request.VPCUser)
+	v.Add("vpc_Password", request.VPCPassword)
+
+	addSecureHash(&v, cfg.SecureSecret)
+
+	u := &url.URL{
+		Scheme:   "https",
+		Host:     cfg.PaymentGatewayHost,
+		Path:     cfg.QueryDRPath,
+		RawQuery: v.Encode(),
+	}
+
+	_, body, errs := gorequest.New().Get(u.String()).End()
+	if len(errs) > 0 {
+		return nil, fmt.Errorf("%v", errs)
+	}
+
+	err = json.Unmarshal([]byte(body), &res)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, err
 }

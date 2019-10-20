@@ -1,10 +1,7 @@
 package payment
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"net/url"
 
 	"gopkg.in/go-playground/validator.v9"
@@ -33,6 +30,7 @@ func NewSandboxInternational(returnURL string) *OnePayInternational {
 		Cfg: &Config{
 			PaymentGatewayHost: "mtf.onepay.vn",
 			PaymentGatewayPath: "vpcpay/vpcpay.op",
+			QueryDRPath:        "vpcpay/Vpcdps.op",
 			Merchant:           "TESTONEPAY",
 			AccessCode:         "6BEB2546",
 			SecureSecret:       "6D0870CDE5F24F34F3915FB0045120DB",
@@ -110,42 +108,6 @@ func (op *OnePayInternational) HandleCallback(v url.Values) (*InternationalRespo
 
 // QueryDR ...Truy vấn trạng thái giao dịch (QueryDR API)
 // - Chỉ gọi hàm này sau 15 phút giao dịch, Phương thức là redirect, kiểu GET
-func (op *OnePayInternational) QueryDR(url string, request *QueryDRAPIRequest) (res *QueryDRAPIResponse, err error) {
-	apiURL, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	query := apiURL.URL.Query()
-	query.Add("vpc_Command", request.VPCCommand)
-	query.Add("vpc_Version", request.VPCVersion)
-	query.Add("vpc_MerchTxnRef", request.VPCMerchTxnRef)
-	query.Add("vpc_Merchant", request.VPCMerchant)
-	query.Add("vpc_AccessCode", request.VPCAccessCode)
-	query.Add("vpc_User", request.VPCUser)
-	query.Add("vpc_Password", request.VPCPassword)
-	query.Add("vpc_SecureHash", request.VPCSecureHashKey)
-
-	apiURL.URL.RawQuery = query.Encode()
-
-	fmt.Println(apiURL.URL.String())
-
-	response, err := http.Get(apiURL.URL.String())
-	if err != nil {
-		return nil, err
-	}
-
-	defer response.Body.Close()
-
-	responseData, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal([]byte(responseData), &res)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, err
+func (op *OnePayInternational) QueryDR(request *QueryDRAPIRequest) (res *QueryDRAPIResponse, err error) {
+	return queryDR(op.Cfg, request)
 }
