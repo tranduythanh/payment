@@ -228,14 +228,14 @@ func (r *InternationalResponse) PostProcess() {
 
 // QueryDRAPIRequest ...
 type QueryDRAPIRequest struct {
-	VPCCommand       string `json:"vpc_Command" query:"vpc_Command" schema:"vpc_Command"`
-	VPCVersion       string `json:"vpc_Version" query:"vpc_Version" schema:"vpc_Version"`
-	VPCMerchTxnRef   string `json:"vpc_MerchTxnRef" query:"vpc_MerchTxnRef" schema:"vpc_MerchTxnRef"`
-	VPCMerchant      string `json:"vpc_Merchant" query:"vpc_Merchant" schema:"vpc_Merchant"`
-	VPCAccessCode    string `json:"vpc_AccessCode" query:"vpc_AccessCode" schema:"vpc_AccessCode"`
-	VPCUser          string `json:"vpc_User" query:"vpc_User" schema:"vpc_User"`
-	VPCPassword      string `json:"vpc_Password" query:"vpc_Password" schema:"vpc_Password"`
-	VPCSecureHashKey string `json:"vpc_SecureHash" query:"vpc_SecureHash" schema:"vpc_SecureHash"`
+	VPCCommand     string `json:"vpc_Command" query:"vpc_Command" schema:"vpc_Command"`
+	VPCVersion     string `json:"vpc_Version" query:"vpc_Version" schema:"vpc_Version"`
+	VPCMerchTxnRef string `json:"vpc_MerchTxnRef" query:"vpc_MerchTxnRef" schema:"vpc_MerchTxnRef"`
+	VPCMerchant    string `json:"vpc_Merchant" query:"vpc_Merchant" schema:"vpc_Merchant"`
+	VPCAccessCode  string `json:"vpc_AccessCode" query:"vpc_AccessCode" schema:"vpc_AccessCode"`
+	VPCUser        string `json:"vpc_User" query:"vpc_User" schema:"vpc_User"`
+	VPCPassword    string `json:"vpc_Password" query:"vpc_Password" schema:"vpc_Password"`
+	VPCSecureHash  string `json:"vpc_SecureHash" query:"vpc_SecureHash" schema:"vpc_SecureHash"`
 }
 
 // QueryDRAPIResponse ...
@@ -255,6 +255,14 @@ func queryDR(cfg *Config, request *QueryDRAPIRequest) (res *QueryDRAPIResponse, 
 	}
 
 	v := url.Values{}
+
+	if request.VPCCommand == "" {
+		request.VPCCommand = "queryDR"
+	}
+
+	if request.VPCVersion == "" {
+		request.VPCVersion = "1"
+	}
 
 	v.Add("vpc_Command", request.VPCCommand)
 	v.Add("vpc_Version", request.VPCVersion)
