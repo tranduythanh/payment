@@ -28,6 +28,7 @@ func NewSandboxDomestic(returnURL string) *OnePayDomestic {
 		Cfg: &Config{
 			PaymentGatewayHost: "mtf.onepay.vn",
 			PaymentGatewayPath: "onecomm-pay/vpc.op",
+			QueryDRPath:        "onecomm-pay/Vpcdps.op",
 
 			Merchant:     "ONEPAY",
 			AccessCode:   "D67342C2",
@@ -102,4 +103,10 @@ func (op *OnePayDomestic) HandleCallback(v url.Values) (*DomesticResponse, error
 	resp.PostProcess()
 
 	return resp, nil
+}
+
+// QueryDR ...Truy vấn trạng thái giao dịch (QueryDR API)
+// - Chỉ gọi hàm này sau 15 phút giao dịch, Phương thức là redirect, kiểu GET
+func (op *OnePayDomestic) QueryDR(request *QueryDRAPIRequest) (res *QueryDRAPIResponse, err error) {
+	return queryDR(op.Cfg, request)
 }

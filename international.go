@@ -30,6 +30,7 @@ func NewSandboxInternational(returnURL string) *OnePayInternational {
 		Cfg: &Config{
 			PaymentGatewayHost: "mtf.onepay.vn",
 			PaymentGatewayPath: "vpcpay/vpcpay.op",
+			QueryDRPath:        "vpcpay/Vpcdps.op",
 			Merchant:           "TESTONEPAY",
 			AccessCode:         "6BEB2546",
 			SecureSecret:       "6D0870CDE5F24F34F3915FB0045120DB",
@@ -103,4 +104,10 @@ func (op *OnePayInternational) HandleCallback(v url.Values) (*InternationalRespo
 	resp.PostProcess()
 
 	return resp, nil
+}
+
+// QueryDR ...Truy vấn trạng thái giao dịch (QueryDR API)
+// - Chỉ gọi hàm này sau 15 phút giao dịch, Phương thức là redirect, kiểu GET
+func (op *OnePayInternational) QueryDR(request *QueryDRAPIRequest) (res *QueryDRAPIResponse, err error) {
+	return queryDR(op.Cfg, request)
 }
